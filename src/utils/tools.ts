@@ -1,0 +1,10 @@
+import * as https from 'https';
+
+export const randomCode = (len = 6) => {
+  let code = '';
+  for (let i = 0; i < len; i++) {
+    const radom = Math.floor(Math.random() * 10);
+    code += radom;
+  }
+  return code;
+};
