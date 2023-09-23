@@ -12,7 +12,8 @@ import { UserEntity } from './user.entity';
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly UserModel: Repository<UserEntity>,
+    private readonly UserRepository: Repository<UserEntity>,
+    @InjectRepository(VerifyEntity)
     private readonly VerifyModel: Repository<VerifyEntity>,
     private readonly mailerService: MailerService,
   ) {}
@@ -25,7 +26,7 @@ export class UserService {
       params.avatar = randomAvatar();
     }
 
-    const u: any = await this.UserModel.findOne({
+    const u: any = await this.UserRepository.findOne({
       where: [{ username }, { email }],
     });
 
@@ -39,7 +40,7 @@ export class UserService {
 
     !isUseEmailVer && (params.status = 0);
 
-    const newUser = await this.UserModel.save(params);
+    const newUser = await this.UserRepository.save(params);
 
     if (!isUseEmailVer) {
       const code = randomCode(8);
@@ -64,15 +65,16 @@ export class UserService {
       return newUser;
     }
   }
+
   async validateUser(username: string, password: string) {
-    const u: any = await this.UserModel.findOne({
-        where: { username },
+    const u: any = await this.UserRepository.findOne({
+      where: { username },
     });
     const bool = compareSync(password, u.password);
     if (bool) {
-        return u;
+      return u;
     } else {
-        return false;
+      return false;
     }
-}
+  }
 }
