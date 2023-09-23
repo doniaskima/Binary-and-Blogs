@@ -1,7 +1,7 @@
 import { MailerService } from '@nest-modules/mailer';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { hashSync } from 'bcryptjs';
+import { hashSync, compareSync } from 'bcryptjs';
 import { randomAvatar } from 'src/constants/avatar';
 import { randomCode } from 'src/utils/tools';
 import { Repository } from 'typeorm';
@@ -64,4 +64,15 @@ export class UserService {
       return newUser;
     }
   }
+  async validateUser(username: string, password: string) {
+    const u: any = await this.UserModel.findOne({
+        where: { username },
+    });
+    const bool = compareSync(password, u.password);
+    if (bool) {
+        return u;
+    } else {
+        return false;
+    }
+}
 }
