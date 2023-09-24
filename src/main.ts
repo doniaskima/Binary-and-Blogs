@@ -7,7 +7,7 @@ import * as Dotenv from 'dotenv';
 Dotenv.config({ path: '.env' });
 const PORT = process.env.PORT;
 const PREFIX = process.env.PREFIX;
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('/api');

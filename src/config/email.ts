@@ -3,14 +3,14 @@ import { join } from 'path';
 
 export default {
   transport: {
-    host: 'smtp.163.com',
-    port: '465',
+    host: 'smtp.gmail.com',
+    port: '587',
     auth: {
-      user: 'doniaskima344@gmail.com',
-      pass: 'PWFJMLSQVOBMQCQJ',
+      user: 'doniaskima202@gmail.com',
+      pass: 'zbauywkttvdwasui',
     },
   },
-  from: 'doniaskima344@gmail.com',
+  from: 'binaryandblogs@gmail.com',
   template: {
     dir: join(__dirname, '../templates/email/'),
     adapter: new PugAdapter(),
