@@ -21,6 +21,15 @@ export class UserService {
     private readonly jwtService: JwtService,
   ) {}
 
+/**
+ * @desc Account Registration
+ * @param params
+ * @param isUseEmailVer Whether to use email verification, user's decision. 
+ *                      If not, the verification process is too cumbersome. 
+ *                      To force verification, the frontend does not pass this parameter. 
+ *                      true: Do not verify, false: Verify
+ * @returns
+ */
   async register(params) {
     const { username, password, email, avatar, isUseEmailVer } = params;
     console.log(params);
@@ -69,7 +78,13 @@ export class UserService {
       return newUser;
     }
   }
-
+  
+  /**
+ * @desc Password Verification, used for local strategy. Currently using a global AuthGuard, temporarily not in use.
+ * @param username
+ * @param password
+ * @returns
+ */
   async validateUser(username: string, password: string) {
     const u: any = await this.UserRepository.findOne({
       where: { username },
@@ -82,6 +97,11 @@ export class UserService {
     }
   }
 
+  /**
+ * @desc Account Login
+ * @param params
+ * @returns
+ */
   async login(params): Promise<any> {
     const { username, password } = params;
     const u: any = await this.UserRepository.findOne({

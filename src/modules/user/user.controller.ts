@@ -1,9 +1,11 @@
+import { ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Post, Request, Get, Query } from '@nestjs/common';
 import { UserRegisterDto } from './dto/register.user.dto';
 import { UserService } from './user.service';
 import { UserLoginDto } from './dto/login.user.dto';
 
 @Controller('/user')
+@ApiTags('User')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -19,8 +21,6 @@ export class UserController {
 
   @Get('/getInfo')
   queryInfo(@Request() req) {
-    const user = req.user;
-    console.log(user);
     return this.userService.getInfo(req.payload);
   }
 

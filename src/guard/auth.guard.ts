@@ -18,11 +18,10 @@ export class AuthGuard implements CanActivate {
     // Check if the route is in the whitelist
     if (whiteList.includes(path)) {
       return true;
-   
     }
+
     const isGet = route.methods.get || route.methods.post;
     const token = headers.authorization.split(' ')[1];
-
 
     if (token) {
       const payload = await this.verifyToken(token, secret);
