@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from 'nestjs-config';
 import { UserModule } from './modules/user/user.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MailerModule } from '@nest-modules/mailer';
+import { VerifyModule } from './modules/verify/verify.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { MailerModule } from '@nest-modules/mailer';
     }),
     ScheduleModule.forRoot(),
     UserModule,
+    VerifyModule,
   ],
   controllers: [],
   providers: [],

@@ -22,6 +22,7 @@ export class UserService {
 
   async register(params) {
     const { username, password, email, avatar, isUseEmailVer } = params;
+    console.log(params);
     params.password = hashSync(password);
 
     if (!avatar) {
@@ -50,7 +51,7 @@ export class UserService {
       const verifyParams = { code, email, type: 'register', expirationTime };
       await this.VerifyModel.save(verifyParams);
 
-      const baseApi = 'http://localhost:3000/';
+      const baseApi = 'http://localhost:3000';
       await this.mailerService.sendMail({
         to: email,
         from: 'doniasblog@gmail.com',
