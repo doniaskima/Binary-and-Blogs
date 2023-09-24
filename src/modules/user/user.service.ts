@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { hashSync, compareSync } from 'bcryptjs';
 import { randomAvatar } from 'src/constants/avatar';
 import { randomCode } from 'src/utils/tools';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { VerifyEntity } from '../verify/verify.entity';
 import { UserEntity } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -127,5 +127,38 @@ export class UserService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  async getInfo(payload) {
+    const { userId: id, exp: failure_time } = payload;
+    const u = await this.UserRepository.findOne({
+      where: { id },
+      select: [
+        'username',
+        'nickname',
+        'email',
+        'avatar',
+        'role',
+        'sign',
+        'roomBg',
+        'roomId',
+      ],
+    });
+    return { userInfo: Object.assign(u, { userId: id }), failure_time };
+  }
+
+  async query(params) {
+    const { page = 1, pageSize = 10, role } = params;
+    const where: any = {};
+    role && (where.role = In(role));
+    const rows = await this.UserRepository.find({
+      order: { id: 'DESC' },
+      where,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      cache: true,
+      select: ['id', 'nickname'],
+    });
+    const count = await this.UserRepository.count();
   }
 }

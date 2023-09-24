@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import * as Dotenv from 'dotenv';
 import { join } from 'path';
+import { AuthGuard } from './guard/auth.guard';
 
 Dotenv.config({ path: '.env' });
 const PORT = process.env.PORT;
@@ -13,8 +14,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('/api');
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalGuards(new AuthGuard());
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
-	app.setViewEngine('ejs');
+  app.setViewEngine('ejs');
 
   app.enableCors();
   await app.listen(PORT, () => {
