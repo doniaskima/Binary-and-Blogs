@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { hashSync, compareSync } from 'bcryptjs';
 import { randomAvatar } from 'src/constants/avatar';
 import { randomCode } from 'src/utils/tools';
-import { In, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { VerifyEntity } from '../verify/verify.entity';
 import { UserEntity } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -177,6 +177,81 @@ export class UserService {
 		return 'Modification Successful.';
   }
 
+  async userList(params){
+    const {page=1 , pageSize=10 , role , status, keyword} = params;
+    const basicWhere: any = {}
+    status && (basicWhere.status = status);
+		status === 0 && (basicWhere.status = status);
+		role && (basicWhere.role = role);
+		let where: any = [];
+    if (keyword) {
+      where.push({ ...basicWhere, ...{ username: Like(`%${keyword}%`) } });
+      where.push({ ...basicWhere, ...{ nickname: Like(`%${keyword}%`) } });
+      where.push({ ...basicWhere, ...{ email: Like(`%${keyword}%`) } });
+    } else {
+      where = basicWhere;
+    }
+    const rows = await this.UserRepository.find({
+			where,
+			order: { id: 'DESC' },
+			skip: (page - 1) * pageSize,
+			take: pageSize,
+			cache: true,
+		});
+		const count = await this.UserRepository.count({ where });
+		return { rows, count };
+  }
 
+  async updateUserInfo(payload, params) {
+    const roleGradeMap = {
+      admin: 1,
+      super: 2,
+      guest: 3,
+      viewer: 4,
+    };
+  
+    const { id, status, email, username, nickname, sex, role, sign } = params;
+    const { role: mineRole, userId: mineId } = payload;
+  
+    const updateUserInfo = await this.UserRepository.findOne({ where: { id } });
+
+  
+    if (mineId === id && role) {
+      throw new HttpException(
+        { message: "Please don't attempt to modify your own role.", error: 'please try again later.' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  
+    /* The smaller the number, the higher the role grade */
+    if (roleGradeMap[updateUserInfo.role] <= roleGradeMap[mineRole]) {
+      throw new HttpException(
+        { message: 'You do not have permission to operate on users with the same or higher role level as yours.', error: 'please try again later.' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  
+    const updateInfo: any = {};
+    status && (updateInfo.status = status);
+    status === 0 && (updateInfo.status = status);
+    email && (updateInfo.email = email);
+    username && (updateInfo.username = username);
+    nickname && (updateInfo.nickname = nickname);
+    sex && (updateInfo.sex = sex);
+    role && (updateInfo.role = role);
+    sign && (updateInfo.sign = sign);
+  
+    const { affected } = await this.UserRepository.update({ id }, updateInfo);
+  
+    if (affected > 0) {
+      return 'Modification Successful';
+    } else {
+      throw new HttpException(
+        { message: 'Failed to update user information', error: 'please try again later.' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+  
 }
  

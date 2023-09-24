@@ -33,4 +33,14 @@ export class UserController {
   update(@Request() req, @Body() params) {
     return this.userService.update(req.payload, params);
   }
+
+  @Get('/userList')
+  userList(@Query() params) {
+    return this.userService.userList(params);
+  }
+
+  @Post('/updateUserInfo')
+  updateUserInfo(@Request() req, @Body() params) {
+    return this.userService.updateUserInfo(req.payload, params);
+  }
 }
