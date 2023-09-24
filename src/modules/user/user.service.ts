@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { MailerService } from '@nest-modules/mailer';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -147,18 +148,35 @@ export class UserService {
     return { userInfo: Object.assign(u, { userId: id }), failure_time };
   }
 
-  async query(params) {
-    const { page = 1, pageSize = 10, role } = params;
-    const where: any = {};
-    role && (where.role = In(role));
-    const rows = await this.UserRepository.find({
-      order: { id: 'DESC' },
-      where,
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-      cache: true,
-      select: ['id', 'nickname'],
-    });
-    const count = await this.UserRepository.count();
+	async query(params) {
+		const { page = 1, pageSize = 10, role } = params;
+		const where: any = {};
+		role && (where.role = In(role));
+		const rows = await this.UserRepository.find({
+			order: { id: 'DESC' },
+			where,
+			skip: (page - 1) * pageSize,
+			take: pageSize,
+			cache: true,
+			select: ['id', 'nickname'],
+		});
+		const count = await this.UserRepository.count();
+		return { rows, count };
+	}
+
+  async update(payload,params){
+		const { userId: id } = payload;
+		const { avatar, username, nickname, roomBg, sign } = params;
+		const upateInfoData: any = {};
+		avatar && (upateInfoData.avatar = avatar);
+		username && (upateInfoData.username = username);
+		nickname && (upateInfoData.nickname = nickname);
+		roomBg && (upateInfoData.roomBg = roomBg);
+		sign && (upateInfoData.sign = sign);
+		await this.UserRepository.update({ id }, upateInfoData);
+		return 'Modification Successful.';
   }
+
+
 }
+ 

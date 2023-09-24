@@ -12,6 +12,7 @@ import { secret, whiteList, postWhiteList } from 'src/config/jwt';
 export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
+ 
     const { headers, path, route } = context.switchToRpc().getData();
 
     // Check if the route is in the whitelist
@@ -19,8 +20,8 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     const isGet = route.methods.get;
-    const token = headers.token || request.headers.token;
-
+    const token = headers.authorization.split(' ')[1];
+ 
     if (token) {
       const payload = await this.verifyToken(token, secret);
       const { role } = payload;

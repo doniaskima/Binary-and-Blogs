@@ -28,4 +28,9 @@ export class UserController {
   query(@Query() params) {
     return this.userService.query(params);
   }
+
+  @Post('/update')
+  update(@Request() req, @Body() params) {
+    return this.userService.update(req.payload, params);
+  }
 }
