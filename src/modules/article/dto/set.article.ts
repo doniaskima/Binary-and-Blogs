@@ -14,12 +14,12 @@ export class ArticleSetDto {
   @IsNotEmpty({ message: 'Description cannot be empty' })
   desc: string;
 
-  @ApiProperty({
-    example: 'http://xxxxx.png',
-    description: 'Article cover image',
-  })
-  @IsNotEmpty({ message: 'Cover image cannot be empty' })
-  coverImg: string;
+  //   @ApiProperty({
+  //     example: 'http://xxxxx.png',
+  //     description: 'Article cover image',
+  //   })
+  //   @IsNotEmpty({ message: 'Cover image cannot be empty' })
+  //   coverImg: string;
 
   @ApiProperty({
     example: 'http://xxxxx.mp3',
@@ -39,9 +39,9 @@ export class ArticleSetDto {
   })
   orderId: number;
 
-  @ApiProperty({ example: 1, description: 'Category ID' })
-  @IsInt({ message: 'Invalid category ID parameter type' })
-  typeId: number;
+  //   @ApiProperty({ example: 1, description: 'Category ID' })
+  //   @IsInt({ message: 'Invalid category ID parameter type' })
+  //   typeId: number;
 
   @ApiProperty({
     example: 'About xxxxx',
@@ -49,15 +49,15 @@ export class ArticleSetDto {
   })
   content: string;
 
-  @ApiProperty({
-    example: 1,
-    description: 'Article status, 1: Published, 2: Draft',
-    required: true,
-    enum: [1, -1],
-    name: 'status',
-  })
-  @IsOptional()
-  @IsEnum([1, -1], { message: 'Invalid status parameter' })
-  @Type(() => Number)
-  status: number;
+  //   @ApiProperty({
+  //     example: 1,
+  //     description: 'Article status, 1: Published, 2: Draft',
+  //     required: true,
+  //     enum: [1, -1],
+  //     name: 'status',
+  //   })
+  //   @IsOptional()
+  //   @IsEnum([1, -1], { message: 'Invalid status parameter' })
+  //   @Type(() => Number)
+  //   status: number;
 }
