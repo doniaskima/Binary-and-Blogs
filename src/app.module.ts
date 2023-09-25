@@ -8,6 +8,7 @@ import { MailerModule } from '@nest-modules/mailer';
 import { VerifyModule } from './modules/verify/verify.module';
 import { ArticleModule } from './modules/article/article.module';
 import { TagModule } from './modules/tag/tag.module';
+import { CommentModule } from './modules/comment/comment.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { TagModule } from './modules/tag/tag.module';
     ArticleModule,
     VerifyModule,
     TagModule,
+    CommentModule,
   ],
   controllers: [],
   providers: [],

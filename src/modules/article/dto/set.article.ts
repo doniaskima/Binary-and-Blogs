@@ -14,12 +14,12 @@ export class ArticleSetDto {
   @IsNotEmpty({ message: 'Description cannot be empty' })
   desc: string;
 
-  //   @ApiProperty({
-  //     example: 'http://xxxxx.png',
-  //     description: 'Article cover image',
-  //   })
-  //   @IsNotEmpty({ message: 'Cover image cannot be empty' })
-  //   coverImg: string;
+  @ApiProperty({
+    example: 'http://xxxxx.png',
+    description: 'Article cover image',
+  })
+  @IsNotEmpty({ message: 'Cover image cannot be empty' })
+  coverImg: string;
 
   @ApiProperty({
     example: 'http://xxxxx.mp3',
@@ -39,9 +39,9 @@ export class ArticleSetDto {
   })
   orderId: number;
 
-  //   @ApiProperty({ example: 1, description: 'Category ID' })
-  //   @IsInt({ message: 'Invalid category ID parameter type' })
-  //   typeId: number;
+  @ApiProperty({ example: 1, description: 'Category ID' })
+  @IsInt({ message: 'Invalid category ID parameter type' })
+  typeId: number;
 
   @ApiProperty({
     example: 'About xxxxx',

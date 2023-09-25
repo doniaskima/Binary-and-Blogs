@@ -39,9 +39,7 @@ export class TagService {
 
   async del(params) {
     const { id } = params;
-
     const count = await this.ArticleModel.count({ where: { tagId: id } });
-
     if (count > 0) {
       throw new HttpException(
         'This tag is being used by articles!',
