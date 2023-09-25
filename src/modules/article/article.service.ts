@@ -27,13 +27,13 @@ export class ArticleService {
       );
 
     /* Before adding a new article, query the maximum orderId */
-    const { orderId = 99 } = await this.ArticleModel.findOne({
-      where: { orderId: LessThan(5000) },
-      order: { orderId: 'DESC' },
-      select: ['id', 'orderId'],
-    });
+    // const { orderId = 99 } = await this.ArticleModel.findOne({
+    //   where: { orderId: LessThan(5000) },
+    //   order: { orderId: 'DESC' },
+    //   select: ['id', 'orderId'],
+    // });
 
-    !params.orderId && (params.orderId = orderId + 10);
+    // !params.orderId && (params.orderId = orderId + 10);
     return this.ArticleModel.save(params);
   }
 

@@ -4,7 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CommentSetDto {
   @ApiProperty({
     example:
-      'The blogger wrote this article very well, but there are a few points xxxx',
+      'The author did an excellent job with this article, although there are a few aspects that could be improved.',
     description: 'Comment content',
   })
   @IsNotEmpty({ message: 'Comment content cannot be empty' })
