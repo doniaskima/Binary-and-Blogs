@@ -8,7 +8,7 @@ export class CommentEntity extends BaseEntity {
 
   @Column({ nullable: true })
   comment: string;
-  
+
   @Column({ nullable: true })
   upId: number;
 
