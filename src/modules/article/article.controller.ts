@@ -1,4 +1,5 @@
 import { ArticleService } from './article.service';
+import { ArticleReadDto } from './dto/read.article';
 import { ArticleSetDto } from './dto/set.article';
 import {
   Controller,
@@ -23,5 +24,11 @@ export class ArticleController {
   @Post('/del')
   del(@Body() params) {
     return this.articleService.del(params);
+  }
+
+
+  @Get('/read')
+  read(@Query() params: ArticleReadDto) {
+      return this.articleService.read(params);
   }
 }

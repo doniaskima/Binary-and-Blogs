@@ -41,4 +41,13 @@ export class ArticleService {
     const { id } = params;
     return await this.ArticleModel.delete({ id });
   }
+
+  async read({ id }) {
+    const article = await this.ArticleModel.findOne({
+      where: { id },
+      select: ['readVolume'],
+    });
+    const readVolume = article ? article.readVolume + 1 : 1;
+    return await this.ArticleModel.update({ id }, { readVolume });
+  }
 }
