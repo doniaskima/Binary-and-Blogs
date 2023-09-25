@@ -33,13 +33,10 @@ export class CommentService {
     //   take: pageSize,
     //   cache: true,
     // });
-
     // const commentIds = rows.map((t) => t.id);
     // const childComment = await this.CommentModel.find({
     //   upId: In([...new Set(commentIds)]),
     // });
- 
-
     // const upperIds = [...new Set(rows.map((t) => t.userId))];
     // const lowerIds = [...new Set(childComment.map((t) => t.userId))];
     // const userIds = [...new Set([...upperIds, ...lowerIds])];
@@ -48,7 +45,6 @@ export class CommentService {
     //     id: In(userIds),
     //   },
     // });
-
     // childComment.forEach((t: any) => {
     //   t.nickname = userInfo.find((k) => k.id === t.userId)['nickname'];
     //   t.avatar = userInfo.find((k) => k.id === t.userId)['avatar'];

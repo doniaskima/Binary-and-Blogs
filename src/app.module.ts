@@ -9,6 +9,7 @@ import { VerifyModule } from './modules/verify/verify.module';
 import { ArticleModule } from './modules/article/article.module';
 import { TagModule } from './modules/tag/tag.module';
 import { CommentModule } from './modules/comment/comment.module';
+import { TypeModule } from './modules/type/type.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CommentModule } from './modules/comment/comment.module';
     VerifyModule,
     TagModule,
     CommentModule,
+    TypeModule,
   ],
   controllers: [],
   providers: [],
