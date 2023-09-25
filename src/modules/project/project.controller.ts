@@ -14,11 +14,11 @@ export class ProjectController {
   }
   @Get('/query')
   query(@Query() params) {
-      return this.ProjectService.query(params);
+    return this.ProjectService.query(params);
   }
 
   @Post('/del')
   del(@Body() params) {
-      return this.ProjectService.del(params);
+    return this.ProjectService.del(params);
   }
 }
