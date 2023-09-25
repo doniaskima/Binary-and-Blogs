@@ -7,6 +7,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { MailerModule } from '@nest-modules/mailer';
 import { VerifyModule } from './modules/verify/verify.module';
 import { ArticleModule } from './modules/article/article.module';
+import { TagModule } from './modules/tag/tag.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ArticleModule } from './modules/article/article.module';
     UserModule,
     ArticleModule,
     VerifyModule,
+    TagModule,
   ],
   controllers: [],
   providers: [],

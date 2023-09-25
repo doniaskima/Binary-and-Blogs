@@ -17,7 +17,6 @@ export class ArticleController {
 
   @Post('/set')
   set(@Body() params: ArticleSetDto) {
-    // set(@Body() params) {
     return this.articleService.set(params);
   }
 
@@ -26,9 +25,13 @@ export class ArticleController {
     return this.articleService.del(params);
   }
 
-
   @Get('/read')
   read(@Query() params: ArticleReadDto) {
-      return this.articleService.read(params);
+    return this.articleService.read(params);
+  }
+
+  @Get('/hot')
+  hot(@Query() {}) {
+    return this.articleService.hot();
   }
 }

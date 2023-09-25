@@ -50,4 +50,12 @@ export class ArticleService {
     const readVolume = article ? article.readVolume + 1 : 1;
     return await this.ArticleModel.update({ id }, { readVolume });
   }
+
+  async hot() {
+    return await this.ArticleModel.find({
+      order: { readVolume: 'DESC' },
+      select: ['id', 'title', 'readVolume'],
+      take: 10,
+    });
+  }
 }

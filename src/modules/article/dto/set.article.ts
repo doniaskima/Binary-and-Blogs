@@ -49,15 +49,15 @@ export class ArticleSetDto {
   })
   content: string;
 
-  //   @ApiProperty({
-  //     example: 1,
-  //     description: 'Article status, 1: Published, 2: Draft',
-  //     required: true,
-  //     enum: [1, -1],
-  //     name: 'status',
-  //   })
-  //   @IsOptional()
-  //   @IsEnum([1, -1], { message: 'Invalid status parameter' })
-  //   @Type(() => Number)
-  //   status: number;
+  @ApiProperty({
+    example: 1,
+    description: 'Article status, 1: Published, 2: Draft',
+    required: true,
+    enum: [1, -1],
+    name: 'status',
+  })
+  @IsOptional()
+  @IsEnum([1, -1], { message: 'Invalid status parameter' })
+  @Type(() => Number)
+  status: number;
 }
