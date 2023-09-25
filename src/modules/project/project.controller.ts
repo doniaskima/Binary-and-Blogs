@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Controller, Get, Post, Query, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProjectSetDto } from './dto/project.set.dto';
 import { ProjectService } from './project.service';
@@ -11,5 +11,14 @@ export class ProjectController {
   @Post('/set')
   set(@Body() params: ProjectSetDto) {
     return this.ProjectService.set(params);
+  }
+  @Get('/query')
+  query(@Query() params) {
+      return this.ProjectService.query(params);
+  }
+
+  @Post('/del')
+  del(@Body() params) {
+      return this.ProjectService.del(params);
   }
 }

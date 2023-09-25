@@ -23,4 +23,23 @@ export class ProjectService {
     data.orderId = data.orderId ? data.orderId : max_order + 10;
     return await this.ProjectModel.save(data);
   }
+
+  async del(params) {
+    const { id } = params;
+    return await this.ProjectModel.delete({ id });
+  }
+  async query(params) {
+    const { page = 1, pageSize = 10, status } = params;
+    const where: any = {};
+    status && (where.status = status);
+    const rows = await this.ProjectModel.find({
+      order: { orderId: 'DESC' },
+      where,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      cache: true,
+    });
+    const count = await this.ProjectModel.count({ where });
+    return { rows, count };
+  }
 }
