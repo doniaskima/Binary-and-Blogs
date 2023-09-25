@@ -10,6 +10,7 @@ import { ArticleModule } from './modules/article/article.module';
 import { TagModule } from './modules/tag/tag.module';
 import { CommentModule } from './modules/comment/comment.module';
 import { TypeModule } from './modules/type/type.module';
+import { ProjectModule } from './modules/project/project.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { TypeModule } from './modules/type/type.module';
     TagModule,
     CommentModule,
     TypeModule,
+    ProjectModule,
   ],
   controllers: [],
   providers: [],
