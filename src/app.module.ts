@@ -13,6 +13,7 @@ import { TypeModule } from './modules/type/type.module';
 import { ProjectModule } from './modules/project/project.module';
 import { ResourceModule } from './modules/ressource/ressource.module';
 import { ResourceTypeModule } from './modules/resource-type/resource-type.module';
+import { FriendLinksModule } from './modules/friend-links/friend-links.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ResourceTypeModule } from './modules/resource-type/resource-type.module
     ProjectModule,
     ResourceModule,
     ResourceTypeModule,
+    FriendLinksModule,
   ],
   controllers: [],
   providers: [],
