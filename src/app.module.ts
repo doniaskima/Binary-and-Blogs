@@ -11,6 +11,7 @@ import { TagModule } from './modules/tag/tag.module';
 import { CommentModule } from './modules/comment/comment.module';
 import { TypeModule } from './modules/type/type.module';
 import { ProjectModule } from './modules/project/project.module';
+import { ResourceModule } from './modules/ressource/ressource.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ProjectModule } from './modules/project/project.module';
     CommentModule,
     TypeModule,
     ProjectModule,
+    ResourceModule,
   ],
   controllers: [],
   providers: [],
