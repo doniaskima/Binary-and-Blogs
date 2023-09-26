@@ -12,6 +12,7 @@ import { CommentModule } from './modules/comment/comment.module';
 import { TypeModule } from './modules/type/type.module';
 import { ProjectModule } from './modules/project/project.module';
 import { ResourceModule } from './modules/ressource/ressource.module';
+import { ResourceTypeModule } from './modules/resource-type/resource-type.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ResourceModule } from './modules/ressource/ressource.module';
     TypeModule,
     ProjectModule,
     ResourceModule,
+    ResourceTypeModule,
   ],
   controllers: [],
   providers: [],
