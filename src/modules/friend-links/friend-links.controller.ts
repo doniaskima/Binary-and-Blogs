@@ -11,14 +11,13 @@ export class FriendLinksController {
     return this.friendLinksService.set(params);
   }
 
-
   @Post('/del')
   del(@Body() params) {
-      return this.friendLinksService.del(params);
+    return this.friendLinksService.del(params);
   }
 
   @Get('/query')
   query(@Query() params) {
-      return this.friendLinksService.query(params);
+    return this.friendLinksService.query(params);
   }
 }

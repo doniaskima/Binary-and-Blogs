@@ -32,20 +32,19 @@ export class FriendLinksService {
   async del(params) {
     const { id } = params;
     return await this.FriendLinksModel.delete({ id });
-}
-async query(params) {
+  }
+  async query(params) {
     const { page = 1, pageSize = 10, status } = params;
     const where: any = {};
     status && (where.status = status);
     const rows = await this.FriendLinksModel.find({
-        order: { orderId: 'DESC' },
-        where,
-        skip: (page - 1) * pageSize,
-        take: pageSize,
-        cache: true,
+      order: { orderId: 'DESC' },
+      where,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      cache: true,
     });
     const count = await this.FriendLinksModel.count({ where });
     return { rows, count };
-}
-
+  }
 }
