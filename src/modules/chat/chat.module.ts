@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './../user/user.entity';
- 
 import { WsChatGateway } from './chat.getaway';
 import { ChatService } from './chat.service';
 import { MessageEntity } from './message.entity';
