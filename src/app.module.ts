@@ -15,6 +15,7 @@ import { ResourceModule } from './modules/ressource/ressource.module';
 import { ResourceTypeModule } from './modules/resource-type/resource-type.module';
 import { FriendLinksModule } from './modules/friend-links/friend-links.module';
 import { EmailModule } from './modules/email/email.module';
+import { ChatModule } from './modules/chat/chat.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { EmailModule } from './modules/email/email.module';
     ResourceTypeModule,
     FriendLinksModule,
     EmailModule,
+    ChatModule,
   ],
   controllers: [],
   providers: [],
