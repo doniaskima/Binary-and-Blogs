@@ -3,7 +3,7 @@ import { MessageEntity } from './message.entity';
 import { RoomEntity } from './room.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class ChatService {
@@ -80,5 +80,29 @@ export class ChatService {
         'roomBg',
       ],
     });
+  }
+
+  async history(params) {
+    const { page = 1, pagesize = 100, roomId } = params;
+    const messageInfo = await this.MessageModel.find({
+      where: { roomId },
+      order: { id: 'DESC' },
+      skip: (page - 1) * pagesize,
+      take: pagesize,
+    });
+    const userIds = [];
+    messageInfo.forEach(
+      (t) => !userIds.includes(t.userId) && userIds.push(t.userId),
+    );
+    const userInfos = await this.UserModel.find({
+      where: { id: In(userIds) },
+      select: ['id', 'nickname', 'avatar'],
+    });
+    userInfos.forEach((t: any) => (t.userId = t.id));
+    messageInfo.forEach(
+      (t: any) =>
+        (t.userInfo = userInfos.find((k: any) => k.userId === t.userId)),
+    );
+    return messageInfo;
   }
 }

@@ -29,4 +29,9 @@ export class chatController {
   roomInfo(@Query() params: RoomInfoDto) {
     return this.ChatService.roomInfo(params);
   }
+
+  @Get('/history')
+  history(@Query() params) {
+    return this.ChatService.history(params);
+  }
 }
