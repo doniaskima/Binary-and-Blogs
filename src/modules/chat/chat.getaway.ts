@@ -1,9 +1,9 @@
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
-    SubscribeMessage,
-    WebSocketGateway,
-    WebSocketServer
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { formatOnlineUser } from 'src/utils/utils-tools';

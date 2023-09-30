@@ -8,3 +8,11 @@ export const randomCode = (len = 6) => {
   }
   return code;
 };
+
+export const getNotEmptyKey = (arg) => {
+  let result = null;
+  Object.keys(arg).forEach((key) => {
+    arg[key] && (result = key);
+  });
+  return result;
+};
