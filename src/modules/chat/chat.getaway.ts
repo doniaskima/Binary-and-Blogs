@@ -175,4 +175,40 @@ export class WsChatGateway {
       roomAdminInfo,
     };
   }
+
+  /**
+   * @desc What to do when disconnecting
+   * 	1. Obtain user information and the room information the user is in, and remove the user from the global online information.
+   * 	2. Remove this user and update the online user information for the current room.
+   * 	3. Check the current room's remaining number of people. If the current room has no people, delete the room's online status.
+   * 		 If there are people in the room, update the room's online list again.
+   * @param client
+   */
+
+  handleDisconnect(client: Socket) {
+    const userId = this.clientIdMap[client.id];
+    const user = this.onlineUserInfo[userId];
+    if (!user) return;
+    const { userInfo, roomId } = user;
+    const { nickname } = userInfo;
+    const delUserIndex = this.roomList[Number(roomId)].onlineUserList.findIndex(
+      (t) => t.userId === userId,
+    );
+    this.roomList[Number(roomId)].onlineUserList.splice(delUserIndex, 1);
+    delete this.onlineUserInfo[userId];
+    if (
+      !this.roomList[Number(roomId)].onlineUserList.length &&
+      Number(roomId) !== 888
+    ) {
+      return delete this.roomList[Number(roomId)];
+    }
+    const onLineUserInfo = formatOnlineUser(
+      this.roomList[Number(roomId)].onlineUserList,
+    );
+    this.socket.to(roomId).emit('offline', {
+      code: 1,
+      data: onLineUserInfo,
+      msg: `${nickname} left the room`,
+    });
+  }
 }
