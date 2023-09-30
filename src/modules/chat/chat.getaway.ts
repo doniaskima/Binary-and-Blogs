@@ -211,4 +211,51 @@ export class WsChatGateway {
       msg: `${nickname} left the room`,
     });
   }
+
+  @SubscribeMessage('updateUserInfo')
+  async handleUpdateUserInfo(client: socket, data: any) {
+    const userId = this.clientIdMap[client.id];
+    const user = this.onlineUserInfo[userId];
+    const { roomId } = user;
+    const u = await this.UserModel.findOne({
+      where: { id: userId },
+      select: [
+        'username',
+        'nickname',
+        'email',
+        'avatar',
+        'role',
+        'roomBg',
+        'sign',
+      ],
+    });
+    const { username, nickname, email, avatar, role, roomBg, sign } = u;
+    this.onlineUserInfo[userId] = {
+      username,
+      nickname,
+      email,
+      avatar,
+      role,
+      roomBg,
+      sign,
+    };
+    const onlineUserInfo = formatOnlineUser(this.onlineUserInfo);
+    this.socket.to(roomId).emit('online', {
+      code: 1,
+      data: onlineUserInfo,
+      msg: `${nickname} updated personal information`,
+    });
+  }
+
+  @SubscribeMessage('updateRoomInfo')
+  async handlerUpdateRoomInfo(client: Socket, roomId) {
+    const roomInfo = await this.RoomModel.findOne({ where: { roomId } });
+    delete roomInfo.createdAt;
+    delete roomInfo.updatedAt;
+    delete roomInfo.deletedAt;
+    if (!this.roomList[roomId]) return;
+    this.roomList[roomId].roomInfo = roomInfo;
+    const roomList = this.formatRoomList();
+    client.emit('recommendRoom', roomList);
+  }
 }
