@@ -1,19 +1,17 @@
-import {
-  ConnectedSocket,
-  MessageBody,
-  SubscribeMessage,
-  WebSocketGateway,
-  WebSocketServer,
-} from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
-import { Server, Socket } from 'socket.io';
-import { Repository } from 'typeorm';
-import { MessageEntity } from './message.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RoomEntity } from './room.entity';
-import { UserEntity } from '../user/user.entity';
-import { verifyToken } from 'src/utils/verifyToken';
+import {
+    SubscribeMessage,
+    WebSocketGateway,
+    WebSocketServer
+} from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
 import { formatOnlineUser } from 'src/utils/utils-tools';
+import { verifyToken } from 'src/utils/verifyToken';
+import { Repository } from 'typeorm';
+import { UserEntity } from '../user/user.entity';
+import { MessageEntity } from './message.entity';
+import { RoomEntity } from './room.entity';
 
 @WebSocketGateway(3002, {
   path: '/chat',
@@ -84,7 +82,10 @@ export class WsChatGateway {
       /* Kick out the old user */
       this.socket.in(uuid).disconnectSockets(true);
     }
-    const roomInfo = await this.RoomModel.findOne({ where: { roomId } });
+    const roomInfo = await this.RoomModel.findOne({
+      where: { roomId: Number(roomId) },
+    });
+
     if (!roomInfo) {
       client.emit('tips', {
         code: -1,
@@ -114,6 +115,7 @@ export class WsChatGateway {
     this.clientIdMap[client.id] = userId; // Map to userId through clientId
     this.joinRoomSuccess(client, userId, nickname, address, roomId);
   }
+
   /**
    * @desc  Informs the client that it has successfully joined the room and returns specific information about the current room.
    * The client requests basic room information for integration.
@@ -212,8 +214,35 @@ export class WsChatGateway {
     });
   }
 
+  /* Query online users */
+  @SubscribeMessage('query')
+  handleQueryOnline(client: Socket, data: any): void {
+    const onlineUserInfo = formatOnlineUser(this.onlineUserInfo);
+    client.emit('query', {
+      data: onlineUserInfo,
+      type: data,
+      msg: 'Query complete',
+    });
+  }
+
+  /* Receive messages from the client */
+  @SubscribeMessage('message')
+  async handleMessage(client: Socket, data: any) {
+    const { type, content } = data;
+    const userId = this.clientIdMap[client.id];
+    const user = this.onlineUserInfo[userId];
+    const { userInfo, roomId } = user;
+    const params = { userId, content, type, roomId };
+    const result = await this.MessageMode.save(params);
+    const { id } = result;
+    this.socket.to(roomId).emit('message', {
+      data: { type, content, userId, id, userInfo, createdAt: new Date() },
+      msg: 'There is a new message',
+    });
+  }
+
   @SubscribeMessage('updateUserInfo')
-  async handleUpdateUserInfo(client: socket, data: any) {
+  async handleUpdateUserInfo(client: Socket, data: any) {
     const userId = this.clientIdMap[client.id];
     const user = this.onlineUserInfo[userId];
     const { roomId } = user;
@@ -257,5 +286,13 @@ export class WsChatGateway {
     this.roomList[roomId].roomInfo = roomInfo;
     const roomList = this.formatRoomList();
     client.emit('recommendRoom', roomList);
+  }
+
+  /**
+   * @desc Send a global notification or announcement to the client.
+   * @param param0
+   */
+  sendNotice(roomId, { type, content }) {
+    this.socket.to(roomId).emit('notice', { type, content });
   }
 }
