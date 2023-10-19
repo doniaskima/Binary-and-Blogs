@@ -17,6 +17,7 @@ export class ArticleService {
     private readonly CollectModel: Repository<CollectEntity>,
     private readonly CommonService: CommonService,
   ) {}
+  
   async set(params) {
     const { id, title } = params;
     if (id) return this.ArticleModel.update({ id }, params);
@@ -85,5 +86,13 @@ export class ArticleService {
       isLiked && (res.isLiked = true);
     }
     return res;
+  }
+
+  async query(params){
+    const { page = 1, pageSize = 10, typeId, keyword, status } = params;
+		let { tagId } = params;
+    tagId && (tagId = Array.isArray(tagId) ?  tagId : [tagId]);
+    let sql = 'select * from tb_article as A  where A.id > 0';
+	
   }
 }

@@ -38,7 +38,7 @@
     "cos-nodejs-sdk-v5": "^2.12.4",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
-    "mysql": "^2.18.1",
+    "mysql2": "^3.6.2",
     "nestjs-config": "^1.4.11",
     "nodemailer": "^6.9.5",
     "passport": "^0.6.0",
