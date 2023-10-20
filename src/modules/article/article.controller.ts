@@ -26,8 +26,10 @@ export class ArticleController {
   hot(@Query() {}) {
     return this.articleService.hot();
   }
+  
   @Get('/detail')
   detail(@Query() params, @Request() req) {
     return this.articleService.detail(params, req);
   }
+
 }

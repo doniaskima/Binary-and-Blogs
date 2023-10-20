@@ -10,10 +10,12 @@ export class TagController {
   set(@Body() params: TagSetDto) {
     return this.tagService.set(params);
   }
+  
   @Get('/query')
   query(@Query() params) {
     return this.tagService.query(params);
   }
+
   @Post('/del')
   del(@Body() params) {
     return this.tagService.del(params);

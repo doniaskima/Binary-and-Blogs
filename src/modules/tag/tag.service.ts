@@ -46,7 +46,6 @@ export class TagService {
         HttpStatus.BAD_REQUEST,
       );
     }
-
     return await this.TagModel.delete({ id });
   }
 }

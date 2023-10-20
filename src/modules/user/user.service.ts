@@ -223,26 +223,26 @@ export class UserService {
   }
 
   async updateUserInfo(payload, params) {
+    
     const roleGradeMap = {
       admin: 1,
       super: 2,
       guest: 3,
       viewer: 4,
     };
-  
+
     const { id, status, email, username, nickname, sex, role, sign } = params;
     const { role: mineRole, userId: mineId } = payload;
   
     const updateUserInfo = await this.UserRepository.findOne({ where: { id } });
 
-  
     if (mineId === id && role) {
       throw new HttpException(
         { message: "Please don't attempt to modify your own role.", error: 'please try again later.' },
         HttpStatus.BAD_REQUEST,
       );
     }
-  
+
     /* The smaller the number, the higher the role grade */
     if (roleGradeMap[updateUserInfo.role] <= roleGradeMap[mineRole]) {
       throw new HttpException(
@@ -250,7 +250,7 @@ export class UserService {
         HttpStatus.BAD_REQUEST,
       );
     }
-  
+
     const updateInfo: any = {};
     status && (updateInfo.status = status);
     status === 0 && (updateInfo.status = status);

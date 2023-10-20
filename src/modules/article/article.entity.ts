@@ -49,7 +49,7 @@ export class ArticleEntity extends BaseEntity {
     comment: 'Whether to autoplay background music. 1: yes, others: no',
   })
   autoPlay: number;
-
+  
   @ManyToOne(() => UserEntity)
   user: UserEntity;
 }

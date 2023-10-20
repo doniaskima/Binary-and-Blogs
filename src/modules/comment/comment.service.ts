@@ -21,42 +21,38 @@ export class CommentService {
   }
 
   async query(params) {
-    // const { page = 1, pageSize = 10, status, articleId } = params;
-    // const where: any = { upId: null };
-    // status && (where.status = status);
-    // articleId && (where.articleId = articleId);
-    // !articleId && (where.articleId = IsNull());
-    // const rows = await this.CommentModel.find({
-    //   order: { id: 'DESC' },
-    //   where,
-    //   skip: (page - 1) * pageSize,
-    //   take: pageSize,
-    //   cache: true,
-    // });
-    // const commentIds = rows.map((t) => t.id);
-    // const childComment = await this.CommentModel.find({
-    //   upId: In([...new Set(commentIds)]),
-    // });
-    // const upperIds = [...new Set(rows.map((t) => t.userId))];
-    // const lowerIds = [...new Set(childComment.map((t) => t.userId))];
-    // const userIds = [...new Set([...upperIds, ...lowerIds])];
-    // const userInfo = await this.UserModel.find({
-    //   where: {
-    //     id: In(userIds),
-    //   },
-    // });
-    // childComment.forEach((t: any) => {
-    //   t.nickname = userInfo.find((k) => k.id === t.userId)['nickname'];
-    //   t.avatar = userInfo.find((k) => k.id === t.userId)['avatar'];
-    //   t.role = userInfo.find((k) => k.id === t.userId)['role'];
-    // });
-    // rows.forEach((t: any) => {
-    //   t.nickname = userInfo.find((k) => k.id === t.userId)['nickname'];
-    //   t.avatar = userInfo.find((k) => k.id === t.userId)['avatar'];
-    //   t.role = userInfo.find((k) => k.id === t.userId)['role'];
-    //   t.chlidComment = childComment.filter((k) => t.id === k.upId);
-    // });
-    // const count = await this.CommentModel.count(where);
-    // return { rows, count };
+    const {page = 1 , pageSize =10 , status , articleId} = params
+    const variable: any = { upId: null };
+    status && (variable.status = status);    
+    articleId && (variable.articleId = articleId);
+    !articleId && (variable.articleId= IsNull());
+    const rows = await this.CommentModel.find({
+      order : {id:'DESC'},
+      where:variable,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      cache: true,
+    })
+    const commentIds = rows.map((t)=>t.id);
+    const childComment = await this.CommentModel.find({
+      where: { upId: In([...new Set(commentIds)]) }, 
+    });
+    const upperIds = [...new Set(rows.map((t) => t.userId))];
+		const lowerIds = [...new Set(childComment.map((t) => t.userId))];
+		const userIds = [...new Set([...upperIds, ...lowerIds])];
+    const userInfo= await this.UserModel.find({
+      where: {
+        id: In(userIds),
+      }
+    })
+    rows.forEach((t:any) =>{
+      t.nickname = userInfo.find((k) => k.id === t.userId)['nickname'];
+      t.avatar = userInfo.find((k) => k.id === t.userId)['avatar'];
+      t.role = userInfo.find((k) => k.id === t.userId)['role'];
+      t.chlidComment = childComment.filter((k) => t.id === k.upId);
+
+    })
+    const count = await this.CommentModel.count(variable)
+    return { rows, count}
   }
 }

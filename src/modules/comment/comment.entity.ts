@@ -3,18 +3,21 @@ import { Column, Entity } from 'typeorm';
 
 @Entity({ name: 'tb_comment' })
 export class CommentEntity extends BaseEntity {
-  @Column()
-  userId: number;
+	@Column()
+	userId: number;
 
-  @Column({ nullable: true })
-  comment: string;
+	@Column()
+	comment: string;
 
-  @Column({ nullable: true })
-  upId: number;
+	@Column({ nullable: true })
+	articleId: number;
 
-  @Column({ nullable: true })
-  ip: string;
+	@Column({ nullable: true })
+	upId: number; //upward comment or parent comment
 
-  @Column({ nullable: true })
-  address: string;
+	@Column({ nullable: true })
+	ip: string;
+
+	@Column({ nullable: true })
+	address: string;
 }
