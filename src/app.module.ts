@@ -16,6 +16,7 @@ import { ResourceTypeModule } from './modules/resource-type/resource-type.module
 import { FriendLinksModule } from './modules/friend-links/friend-links.module';
 import { EmailModule } from './modules/email/email.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { StatisticsModule } from './modules/statistics/statistic.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { ChatModule } from './modules/chat/chat.module';
     FriendLinksModule,
     EmailModule,
     ChatModule,
+    StatisticsModule,
   ],
   controllers: [],
   providers: [],
