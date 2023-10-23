@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArticleEntity } from '../article/article.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { TypeEntity } from '../type/type.entity';
 import { CommentEntity } from '../comment/comment.entity';
 import { FriendLinksEntity } from '../friend-links/friend-links.entity';
@@ -32,5 +32,15 @@ export class StatisticsService {
 		const articleNumsMap = await Promise.all(task);
         type.forEach((type:any , i )=>(type.nums=articleNumsMap[i]))
         return type;
+    }
+
+    //Get Summary Information about articles 
+    async Summary(){
+        const articleNumber = await this.ArticleModel.count();
+        const druftNumber = await this.ArticleModel.count({where : {status:-1}})
+        const leaveMsgNumber = await this.CommentModel.count({where : { articleId: IsNull() }  })
+        const friendLinkNum = await this.FriendLinksModel.count({ where: { status: 1 } });
+		const userNum = await this.UserModel.count();
+        return {articleNumber , druftNumber , leaveMsgNumber, friendLinkNum, userNum}
     }
 }
